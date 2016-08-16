@@ -1,12 +1,12 @@
 'use strict'
 
-let assert = require('chai').assert
-let request = require('supertest-as-promised')
+let assert = require('chai').assert;
+let request = require('supertest-as-promised');
 
-let app = require('../../app')
-let email = 'integration_test_' + Math.floor(Date.now() / 1000) + '@wartech.ua'
-let password = 'test'
-let name = 'My name'
+let app = require('../../app');
+let email = 'integration_test_' + Math.floor(Date.now() / 1000) + '@wartech.ua';
+let password = 'test';
+let name = 'My name';
 
 describe('Authentication Controller', () => {
 
@@ -14,13 +14,13 @@ describe('Authentication Controller', () => {
     let _token = null;
 
     return request(app)
-      .post('/api/register')
-      .send({ email, password, name })
-      .expect(201)
-      .then((data) => {
-        _token = data.body.token;
-        assert.ok(_token);
-      });
+        .post('/api/register')
+        .send({email, password, name})
+        .expect(201)        
+        .then((data) => {
+            _token = data.body.token;
+            assert.ok(_token);
+         });
   });
 
   it('should login existing User', () => {
@@ -55,7 +55,7 @@ describe('Authentication Controller', () => {
       .send({ email, name })
       .expect(400);
   });
-});
+ });
 
 describe('Profile controller', () => {
 
@@ -77,7 +77,8 @@ describe('Profile controller', () => {
       .set('Authorization', 'Bearer ' + _token)
       .expect(200)
       .then((data) => {
-        assert.equal(data.body.email, _user);
+          //assert.equal(data.body.email, _user); //исправил _user на email - наверное опечатка?
+          assert.equal(data.body.email, email);
       });
   });
 
